@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex Diff Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hex Diff Tool</h1>
+
+        <!-- Advertisement Section -->
+        <div class="ad-banner">
+            <p>Sponsored: Check out our amazing products! <a href="https://example.com" target="_blank">Click here</a></p>
+        </div>
+
+        <div class="file-inputs">
+            <div>
+                <label for="file1" class="file-label">File 1:</label>
+                <input type="file" id="file1" class="file-input">
+                <button class="remove-button" onclick="removeFile(1)">Remove</button>
+            </div>
+            <div>
+                <label for="file2" class="file-label">File 2:</label>
+                <input type="file" id="file2" class="file-input">
+                <button class="remove-button" onclick="removeFile(2)">Remove</button>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="action-button" onclick="compareFiles()">Compare</button>
+            <button class="action-button" onclick="exportDifferences()">Export</button>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+            <span class="progress-percentage">0%</span>
+        </div>
+
+        <div id="comparison-time" class="comparison-time"></div>
+
+        <!-- Box for displaying export result -->
+        <div id="export-result-box" class="export-result-box">
+            <h3>Exported Differences:</h3>
+            <pre id="export-result"></pre>
+        </div>
+
+        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

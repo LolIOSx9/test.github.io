@@ -1,0 +1,174 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Advertisement Banner Styles */
+.ad-banner {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.ad-banner p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.ad-banner a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.ad-banner a:hover {
+    text-decoration: underline;
+}
+
+/* File Input Styles */
+.file-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.file-inputs div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-label {
+    font-weight: bold;
+    width: 80px;
+    text-align: right;
+}
+
+.file-input {
+    padding: 8px;
+    width: 70%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.remove-button {
+    padding: 6px 12px;
+    background-color: #FF4C4C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    background-color: #e03e3e;
+}
+
+/* Button Styles */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.action-button {
+    padding: 12px 25px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48%;
+    font-size: 1rem;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+/* Progress Bar Styles */
+/* Progress Bar Styles */
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #4CAF50;
+    transition: width 0.2s ease;
+}
+
+.progress-percentage {
+    position: absolute;
+    top: 50%; /* Center the text vertically */
+    right: 10px; /* Add some padding from the right edge */
+    transform: translateY(-50%); /* Adjust to align exactly at the center */
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Other styles remain unchanged */
+
+
+/* Comparison Time Styles */
+.comparison-time {
+    text-align: center;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 15px;
+}
+
+/* Export Result Box Styles */
+.export-result-box {
+    display: none; /* Hidden by default */
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.export-result-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.export-result-box pre {
+    white-space: pre-wrap; /* To wrap long lines */
+    word-wrap: break-word; /* To prevent overflow */
+    color: #555;
+    font-size: 0.9rem;
+}
