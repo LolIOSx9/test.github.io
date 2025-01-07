@@ -36,6 +36,9 @@ async function compareFiles() {
         return;
     }
 
+    // Show an alert when the comparison starts
+    alert('Comparing files in progress. Please wait.');
+
     const file1 = file1Input.files[0];
     const file2 = file2Input.files[0];
 
