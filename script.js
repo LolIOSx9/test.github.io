@@ -12,12 +12,12 @@ function formatHex(byte) {
 
 function removeFile(fileNumber) {
     const fileInput = document.getElementById(`file${fileNumber}`);
-    fileInput.value = ''; // Clears the file input
+    fileInput.value = '';
     alert(`File ${fileNumber} has been removed.`);
 }
 
 function updateProgressBar(percent) {
-    if (percent - lastPercentUpdate >= 5 || percent === 100) { // Throttle updates
+    if (percent - lastPercentUpdate >= 5 || percent === 100) {
         const progressBar = document.querySelector('.progress-bar');
         const progressPercentage = document.querySelector('.progress-percentage');
         progressBar.style.width = `${percent}%`;
@@ -36,7 +36,6 @@ async function compareFiles() {
         return;
     }
 
-    // Show an alert when the comparison starts
     alert('Comparing files in progress. Please wait.');
 
     const file1 = file1Input.files[0];
@@ -51,7 +50,7 @@ async function compareFiles() {
 
         const maxLength = Math.max(bytes1.length, bytes2.length);
         for (let idx = 0; idx < maxLength; idx += BYTES_PER_LINE) {
-            await new Promise(resolve => setTimeout(resolve, 0)); // Allow browser to breathe
+            await new Promise(resolve => setTimeout(resolve, 0));
 
             const line1 = bytes1.slice(idx, idx + BYTES_PER_LINE);
             const line2 = bytes2.slice(idx, idx + BYTES_PER_LINE);
@@ -93,7 +92,7 @@ async function compareFiles() {
         comparisonTimeDisplay.textContent = `Comparison completed in ${timeTaken} ms.`;
     } catch (error) {
         console.error('Error reading files:', error);
-        alert('An error occurred while reading the files.');
+        alert('An error occurred during file comparison.');
     }
 }
 
