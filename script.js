@@ -1,5 +1,6 @@
 const BYTES_PER_LINE = 16;
 let differences = [];
+let lastPercentUpdate = 0;
 
 async function readFile(file) {
     return new Uint8Array(await file.arrayBuffer());
@@ -16,17 +17,19 @@ function removeFile(fileNumber) {
 }
 
 function updateProgressBar(percent) {
-    const progressBar = document.querySelector('.progress-bar');
-    const progressPercentage = document.querySelector('.progress-percentage');
-    progressBar.style.width = `${percent}%`;
-    progressPercentage.textContent = `${Math.round(percent)}%`; // Update percentage text
+    if (percent - lastPercentUpdate >= 5 || percent === 100) { // Throttle updates
+        const progressBar = document.querySelector('.progress-bar');
+        const progressPercentage = document.querySelector('.progress-percentage');
+        progressBar.style.width = `${percent}%`;
+        progressPercentage.textContent = `${Math.round(percent)}%`;
+        lastPercentUpdate = percent;
+    }
 }
 
-function compareFiles() {
+async function compareFiles() {
     const file1Input = document.getElementById('file1');
     const file2Input = document.getElementById('file2');
     const comparisonTimeDisplay = document.getElementById('comparison-time');
-    const progressBar = document.querySelector('.progress-bar');
 
     if (file1Input.files.length === 0 || file2Input.files.length === 0) {
         alert('Please select both files.');
@@ -37,13 +40,16 @@ function compareFiles() {
     const file2 = file2Input.files[0];
 
     const startTime = performance.now();
-    updateProgressBar(0); // Set initial progress to 0%
+    updateProgressBar(0);
 
-    Promise.all([readFile(file1), readFile(file2)]).then(([bytes1, bytes2]) => {
+    try {
+        const [bytes1, bytes2] = await Promise.all([readFile(file1), readFile(file2)]);
         differences = [];
 
         const maxLength = Math.max(bytes1.length, bytes2.length);
         for (let idx = 0; idx < maxLength; idx += BYTES_PER_LINE) {
+            await new Promise(resolve => setTimeout(resolve, 0)); // Allow browser to breathe
+
             const line1 = bytes1.slice(idx, idx + BYTES_PER_LINE);
             const line2 = bytes2.slice(idx, idx + BYTES_PER_LINE);
 
@@ -57,37 +63,35 @@ function compareFiles() {
 
                 if (b1 !== b2) {
                     hasDifference = true;
-                    diff1 += formatHex(b1);
-                    diff2 += formatHex(b2);
+                    diff1 += formatHex(b1) + ' ';
+                    diff2 += formatHex(b2) + ' ';
                 }
             }
 
             if (hasDifference) {
-                differences.push({ offset: idx, line1: diff1, line2: diff2 });
+                differences.push({ offset: idx, line1: diff1.trim(), line2: diff2.trim() });
             }
 
-            // Update progress bar with percentage
             updateProgressBar(((idx + BYTES_PER_LINE) / maxLength) * 100);
         }
 
+        updateProgressBar(100);
+
         const endTime = performance.now();
         const timeTaken = (endTime - startTime).toFixed(2);
-
-        updateProgressBar(100); // Ensure progress bar reaches 100% when done
 
         if (differences.length === 0) {
             alert('The files are identical.');
         } else {
             alert('Comparison complete. Differences found. You can now export them.');
-            // Display export result box with differences
             displayExportResults();
         }
 
         comparisonTimeDisplay.textContent = `Comparison completed in ${timeTaken} ms.`;
-    }).catch(error => {
+    } catch (error) {
         console.error('Error reading files:', error);
         alert('An error occurred while reading the files.');
-    });
+    }
 }
 
 function displayExportResults() {
@@ -97,11 +101,10 @@ function displayExportResults() {
   File 2: ${difference.line2}`;
     }).join('\n\n');
 
-    // Display the export result in the box
     const exportResultBox = document.getElementById('export-result-box');
     const exportResultElement = document.getElementById('export-result');
     exportResultElement.textContent = diffContent;
-    exportResultBox.style.display = 'block'; // Show the result box
+    exportResultBox.style.display = 'block';
 }
 
 function exportDifferences() {
@@ -116,15 +119,13 @@ function exportDifferences() {
   File 2: ${difference.line2}`;
     }).join('\n\n');
 
-    // Create a Blob from the differences text
     const blob = new Blob([diffContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'differences.txt'; // Set default filename
+    link.download = 'differences.txt';
     link.click();
 
-    // Clean up the URL object after download
     URL.revokeObjectURL(url);
 }
